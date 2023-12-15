@@ -23,7 +23,7 @@ class MenuController extends Controller
             return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
         }
 
-        return MenuResource::collection($menu);
+        return response()->json(['statusCode' => 200 ,'data' =>   MenuResource::collection($menu)] ,200);
     }
 
 

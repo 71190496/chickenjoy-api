@@ -5,7 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\DetailTransaksiController;
+use App\Http\Controllers\PesananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,15 +28,31 @@ use App\Http\Controllers\KaryawanController;
 // Route User
 Route::get('/user', [UserController::class, 'index']);
 
-// Route Karyawan
-Route::get('/karyawan', [KaryawanController::class, 'index']);
+
 
 // Route menu
-Route::get('/menu', [MenuController::class, 'index'])->middleware(['auth:sanctum']);
-Route::post('/tambah-menu', [MenuController::class, 'store'])->middleware(['auth:sanctum']);
-Route::put('/edit-menu/{id}', [MenuController::class, 'update'])->middleware(['auth:sanctum']);
-Route::delete('/hapus-menu/{id}', [MenuController::class, 'destroy'])->middleware(['auth:sanctum']);
+Route::get('/menu', [MenuController::class, 'index'])->middleware(['auth:sanctum','role:karyawan']);
+Route::get('/menu/kategori/Makanan', [MenuController::class, 'index'])->middleware(['auth:sanctum','role:karyawan']);
+Route::get('/menu/kategori/Minuman', [MenuController::class, 'index'])->middleware(['auth:sanctum','role:karyawan']);
+Route::get('/menu/kategori/Roti%20Bakar%20Paket%20Rame-rame', [MenuController::class, 'index'])->middleware(['auth:sanctum','role:karyawan']);
+Route::get('/menu/kategori/Roti%20Bakar%20Paket%20Sendiri', [MenuController::class, 'index'])->middleware(['auth:sanctum','role:karyawan']);
+Route::post('/tambah-menu', [MenuController::class, 'store'])->middleware(['auth:sanctum','role:admin']);
+Route::put('/edit-menu/{id}', [MenuController::class, 'update'])->middleware(['auth:sanctum','role:admin']);
+Route::delete('/hapus-menu/{id}', [MenuController::class, 'destroy'])->middleware(['auth:sanctum','role:admin']);
 
 // Route Login & Logout
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register'])->middleware(['auth:sanctum','role:admin']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware(['auth:sanctum']);
+
+
+// Route Excel
+Route::get('/export', [ExportController::class, 'export']);
+
+// Route Transaksi
+Route::post('/tambah-detail-transaksi', [DetailTransaksiController::class, 'store']);
+Route::get('/summary-penjualan/{date?}', [PesananController::class, 'show']);
+Route::get('/summary-penjualan/today', [PesananController::class, 'showToday']);
+Route::get('/summary-penjualan/yesterday', [PesananController::class, 'showYesterday']);
+Route::get('/summary-penjualan/last-week', [PesananController::class, 'showLastWeek']);
+Route::get('/summary-penjualan/last-month', [PesananController::class, 'showLastMonth']);

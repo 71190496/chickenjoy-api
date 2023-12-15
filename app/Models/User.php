@@ -20,8 +20,10 @@ class User extends Authenticatable
     protected $table = 'User';
     protected $primaryKey = 'id_user';
     protected $fillable = [ 
-        'username', 
-        'password'
+        'username',
+        'nama_karyawan',
+        'password',
+        'role'
     ];
 
     /**
@@ -45,7 +47,12 @@ class User extends Authenticatable
     ];
 
     public function findForPassport($username)
-{
-    return $this->where('username', $username)->first();
-}
+    {
+        return $this->where('username', $username)->first();
+    }
+
+    // public function karyawan()
+    // {
+    //     return $this->belongsTo(Karyawan::class, 'id_user');
+    // }
 }

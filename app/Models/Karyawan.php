@@ -9,5 +9,11 @@ class Karyawan extends Model
 {
     use HasFactory;
     protected $table = 'Karyawan';
-    protected $fillable = ['nama_karyawan'];
+    protected $primaryKey = 'id_karyawan';
+    protected $fillable = ['nama_karyawan', 'id_user'];
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id_user');
+    }
 }

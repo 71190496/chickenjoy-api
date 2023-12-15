@@ -10,6 +10,6 @@ class UserController extends Controller
 {
     public function index(){
         $user = User::all();
-        return UserResource::collection($user);
+        return response()->json(['statusCode' => 200 ,'data' =>   UserResource::collection($user)] ,200);
     }
 }
