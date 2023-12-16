@@ -1,8 +1,7 @@
 {
     "private": true,
     "type": "module",
-    "scripts": {
-        "start": "index.js",
+    "scripts": { 
         "dev": "vite",
         "build": "vite build"
     },
